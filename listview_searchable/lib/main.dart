@@ -34,12 +34,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     items.addAll(generatedItems);
+    editingController.addListener((){
+      final query = editingController.text;
+      filterSearchResults(query);
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    // Clean up the controller when the widget is removed from the widget tree.
+    editingController.dispose();
     super.dispose();
   }
 
@@ -65,9 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(25))
                   )
                 ),
-                onChanged: (value){
-                  filterSearchResults(value);
-                },
                 controller: editingController,
               ),
             ),
