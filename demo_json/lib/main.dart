@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:demo_json/models/user.dart';
+import 'package:demo_json/models/address.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,23 +24,38 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: buildHomePage(title: 'JSON serialization demo'),
+      home: HomePage(title: 'JSON serialization demo'),
     );
   }
+}
 
-  Widget buildHomePage({String title}){
-    final String jsonString = '''
+class HomePage extends StatefulWidget{
+  final String title;
+
+  HomePage({this.title});
+
+  @override
+  HomePageState createState() {
+    // TODO: implement createState
+    return HomePageState();
+  }
+}
+
+class HomePageState extends State<HomePage>{
+  static String jsonString = '''
 {
   "name": "John Smith",
   "email": "john@example.com"
 }    
     ''';
-    final Map<String, dynamic> json = jsonDecode(jsonString);
-    final User user = User.fromJson(json);
+  static Map<String, dynamic> json = jsonDecode(jsonString);
+  User user = User.fromJson(json);
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
       body: Center(
         child: Column(
@@ -47,11 +64,23 @@ class MyApp extends StatelessWidget {
             Text(jsonString),
             Divider(height: 4,),
             Text('Username: ${user.name}'),
-            Text('Email: ${user.email}')
+            Text('Email: ${user.email}'),
+            FlatButton(
+              onPressed: _addAddress,
+              child: Text('Add Address'),
+            ),
+            Text('json string:\n${user.toJson()}'),
           ],
         ),
       ),
     );
+  }
+
+  void _addAddress(){
+    setState(() {
+      Address address = Address("Le Duan", "Ho Chi Minh City");
+      user.address = address;
+    });
   }
 }
 
