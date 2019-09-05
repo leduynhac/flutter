@@ -74,8 +74,14 @@ class _MyHomePageState extends State<MyHomePage>{
   }
 
   _onTapItem(Record record){
-    record.reference.updateData({'votes':record.votes + 1});
-    print(record); //print(record) to console
+    Firestore.instance.runTransaction((transaction) async {
+      final freshSnapshot = await transaction.get(record.reference);
+      final fresh = Record.fromSnapshot(freshSnapshot);
+
+      await transaction.update(record.reference, {'votes': fresh.votes + 1});
+    });
+//    record.reference.updateData({'votes':record.votes + 1});
+//    print(record); //print(record) to console
   }
 }
 
