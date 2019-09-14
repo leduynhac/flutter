@@ -27,6 +27,10 @@ dependencies:
   #Flutter plugin for Firebase Auth, enabling Android and iOS authentication using passwords,
   # phone numbers and identity providers like Google, Facebook and Twitter.
   firebase_auth: ^0.14.0+5
+
+  #Flutter plugin for Firebase Database, a cloud-hosted NoSQL database with realtime data
+  # syncing across Android and iOS clients, and offline access.
+  firebase_database: ^3.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

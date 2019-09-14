@@ -1,3 +1,4 @@
+import 'package:dms_esculape/pages/todo_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dms_esculape/services/authen.dart';
 
@@ -14,17 +15,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   bool _isEmailVerified = false;
+  String _userId = "";
 
   @override
   void initState() {
     super.initState();
     _checkEmailVerification();
+    widget.auth.getCurrentUser().then((user){
+      if (user != null){
+        _userId = user.uid;
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Esculape"),
+        title: Text("Domisu World!"),
         actions: <Widget>[
           FlatButton(
             child: Text("Logout"),
@@ -105,6 +112,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _showBody(){
+    return Center(
+      child: FlatButton(
+        child: Text('TODO'),
+        onPressed: (){
+          _navigateToSubPage(context);
+        },
+      ),
+    );
+  }
 
+  _navigateToSubPage(BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TodoPage(userId: _userId,)
+        ));
   }
 }
