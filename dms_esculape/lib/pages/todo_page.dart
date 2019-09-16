@@ -189,28 +189,53 @@ class _TodoState extends State<TodoPage>{
         bool completed = items[index].completed;
         String userId = items[index].userId;
         return Dismissible(
+          direction: DismissDirection.endToStart,
           key: Key(key),
-          background: Container(color: Colors.red),
-          onDismissed: (direction) async{
-            await _deleteItem(items[index], index);
-          },
-          child: ListTile(
-            title: Text(
-              subject,
-              style: TextStyle(fontSize: 20.0),
-            ),
-            trailing: IconButton(
-              icon: completed
-                  ? Icon(Icons.done, color: Colors.green, size: 20.0,)
-                  : Icon(Icons.done, color: Colors.grey, size: 20.0),
-              onPressed: () async{
-                await _updateItem(items[index]);
-                setState(() {
-
-                });
-              },
+          background: Container(
+            color: Colors.red,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Icon(
+                  Icons.delete,
+                )
+              ],
             ),
           ),
+          onDismissed: (direction) async{
+            await _deleteItem(items[index], index);
+            Scaffold.of(context)
+                .showSnackBar(SnackBar(content: Text("$subject dismissed")));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.grey),
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                ListTile(
+                  title: Text(
+                    subject,
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  trailing: IconButton(
+                    icon: completed
+                        ? Icon(Icons.done, color: Colors.green, size: 20.0,)
+                        : Icon(Icons.done, color: Colors.grey, size: 20.0),
+                    onPressed: () async{
+                      await _updateItem(items[index]);
+                      setState(() {
+
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+
         );
       },
     );
