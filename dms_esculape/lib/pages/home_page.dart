@@ -113,11 +113,17 @@ class _HomePageState extends State<HomePage> {
 
   Widget _showBody(){
     return Center(
-      child: FlatButton(
-        child: Text('TODO'),
-        onPressed: (){
-          _navigateToSubPage(context);
-        },
+      child: new SizedBox(
+        height: 40.0,
+        width: 200,
+        child: new RaisedButton(
+            child: new Text("TO DO"),
+            color: Colors.blue,
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+            onPressed: (){
+              _navigateToSubPage(context);
+            }
+        ),
       ),
     );
   }
